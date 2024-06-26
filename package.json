@@ -64,8 +64,8 @@
     "extends": "react-app"
   },
   "dependencies": {
-    "chroma-js": "^1.3.4",
-    "rc-slider": "^8.4.0",
+    "chroma-js": "^2.4.2",
+    "rc-slider": "^9.7.5",
     "react-select": "^2.4.4"
   }
 }
