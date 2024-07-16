@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 
 module.exports = {
+  mode: 'development',
   entry: ['react-hot-loader/patch', './docs/index.js'],
   output: {
     filename: 'bundle.js',
@@ -12,7 +13,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['react', 'es2015', 'stage-0'],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
             plugins: [
               'react-hot-loader/babel',
             ],
@@ -28,7 +29,7 @@ module.exports = {
   },
   devServer: {
     open: true,
-    contentBase: './docs',
+    static: './docs',
   },
   devtool: 'eval-source-map',
 };

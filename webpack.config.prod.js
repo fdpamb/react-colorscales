@@ -5,10 +5,21 @@ const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
 const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const paths = require("./config/paths");
+const ESLintPlugin = require('eslint-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+const myEslintOptions = {
+  extensions: [`js`, `jsx`],
+  exclude: [`node_modules`],
+};
 
 const shouldUseSourceMap = false;
 
 module.exports = {
+  mode: 'production',
+  plugins: [
+    new ESLintPlugin(myEslintOptions),
+  ],
   // Don't attempt to continue if there are any errors.
   bail: true,
   // Generate source maps
@@ -28,15 +39,15 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         enforce: "pre",
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve("eslint")
-            },
-            loader: require.resolve("eslint-loader")
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', { targets: 'defaults' }],
+              '@babel/preset-react'
+            ]
           }
-        ],
+        },
         include: paths.appLibSrc
       },
       {
@@ -88,21 +99,23 @@ module.exports = {
               {
                 loader: require.resolve("postcss-loader"),
                 options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: "postcss",
-                  plugins: () => [
-                    require("postcss-flexbugs-fixes"),
-                    autoprefixer({
-                      browsers: [
-                        ">1%",
-                        "last 4 versions",
-                        "Firefox ESR",
-                        "not ie < 9" // React doesn't support IE8 anyway
-                      ],
-                      flexbox: "no-2009"
-                    })
-                  ]
+                  postcssOptions: {
+                    // Necessary for external CSS imports to work
+                    // https://github.com/facebookincubator/create-react-app/issues/2677
+                    ident: "postcss",
+                    plugins: () => [
+                      require("postcss-flexbugs-fixes"),
+                      autoprefixer({
+                        overrideBrowserslist: [
+                          ">1%",
+                          "last 4 versions",
+                          "Firefox ESR",
+                          "not ie < 9" // React doesn't support IE8 anyway
+                        ],
+                        flexbox: "no-2009"
+                      })
+                    ]
+                  }
                 }
               }
             ]
@@ -117,7 +130,7 @@ module.exports = {
             // it's runtime that would otherwise processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
-            exclude: [/\.js$/, /\.html$/, /\.json$/],
+            exclude: [/\.js$/, /\.m?jsx?$/, /\.html$/, /\.json$/],
             options: {
               name: "[name].[ext]"
             }
@@ -128,26 +141,9 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        // Disabled because of an issue with Uglify breaking seemingly valid code:
-        // https://github.com/facebookincubator/create-react-app/issues/2376
-        // Pending further investigation:
-        // https://github.com/mishoo/UglifyJS2/issues/2011
-        comparisons: false
-      },
-      output: {
-        comments: false,
-        // Turned on because emoji and regex is not minified properly using default
-        // https://github.com/facebookincubator/create-react-app/issues/2488
-        ascii_only: true
-      },
-      sourceMap: shouldUseSourceMap
-    })
-  ],
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
   externals: {
     react: "react",
     "react-dom": "react-dom"
