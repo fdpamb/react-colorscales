@@ -9,7 +9,8 @@
   "scripts": {
     "start": "webpack-dev-server --hot",
     "build": "node ./scripts/build.js",
-    "buildDemoBundle": "webpack ./docs/index.js --output-path ./docs --output-filename bundle.js"
+    "buildDemoBundle": "webpack ./docs/index.js --output-path ./docs --output-filename bundle.js",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
