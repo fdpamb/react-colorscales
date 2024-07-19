@@ -142,7 +142,30 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new UglifyJsPlugin()],
+    minimizer: [new UglifyJsPlugin(
+      {
+        uglifyOptions: {
+          compress: {
+            comparisons: false
+          },
+          output: {
+            comments: false,
+            ascii_only: true
+          },
+          sourceMap: shouldUseSourceMap,
+          warnings: false,
+          //parse: {},
+          //mangle: true, // Note `mangle.properties` is `false` by default.
+          //toplevel: false,
+          //nameCache: null,
+          //ie8: false,
+          //keep_fnames: false
+        },
+      }
+    )],
+    /*splitChunks: {
+      chunks: 'all',
+    },*/
   },
   externals: {
     react: "react",
@@ -155,5 +178,10 @@ module.exports = {
     fs: "empty",
     net: "empty",
     tls: "empty"
+  },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   }
 };
