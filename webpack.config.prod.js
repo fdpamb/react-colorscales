@@ -6,7 +6,7 @@ const webpack = require("webpack");
 const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const paths = require("./config/paths");
 const ESLintPlugin = require('eslint-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const myEslintOptions = {
   extensions: [`js`, `jsx`],
@@ -142,9 +142,10 @@ module.exports = {
     ]
   },
   optimization: {
-    minimizer: [new UglifyJsPlugin(
-      {
-        uglifyOptions: {
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.uglifyJsMinify,
+        terserOptions: {
           compress: {
             comparisons: false
           },
@@ -161,8 +162,8 @@ module.exports = {
           //ie8: false,
           //keep_fnames: false
         },
-      }
-    )],
+      }),
+    ],
     /*splitChunks: {
       chunks: 'all',
     },*/
@@ -173,12 +174,12 @@ module.exports = {
   },
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
-  node: {
+  /*node: {
     dgram: "empty",
     fs: "empty",
     net: "empty",
     tls: "empty"
-  },
+  },*/
   performance: {
     hints: false,
     maxEntrypointSize: 512000,
