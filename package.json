@@ -23,12 +23,12 @@
   "homepage": "https://github.com/plotly/react-colorscales#readme",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "7.25.9",
+    "@babel/cli": "7.26.4",
     "@babel/core": "^7.26.0",
     "@babel/eslint-parser": "7.25.9",
     "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.25.9",
+    "@babel/preset-react": "^7.26.3",
     "@babel/preset-stage-0": "7.8.3",
     "ajv": "^8.17.1",
     "autoprefixer": "10.4.20",
@@ -58,7 +58,7 @@
     "terser-webpack-plugin": "^5.3.10",
     "uglify-js": "^3.19.3",
     "url-loader": "4.1.1",
-    "webpack": "5.96.1",
+    "webpack": "5.97.1",
     "webpack-cli": "5.1.4",
     "webpack-dev-server": "5.1.0"
   },
