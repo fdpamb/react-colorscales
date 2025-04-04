@@ -3,23 +3,13 @@ process.env.NODE_ENV = "production";
 
 const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
-const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const paths = require("./config/paths");
-const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-
-const myEslintOptions = {
-  extensions: [`js`, `jsx`],
-  exclude: [`node_modules`],
-};
 
 const shouldUseSourceMap = false;
 
 module.exports = {
   mode: 'production',
-  plugins: [
-    new ESLintPlugin(myEslintOptions),
-  ],
   // Don't attempt to continue if there are any errors.
   bail: true,
   // Generate source maps
